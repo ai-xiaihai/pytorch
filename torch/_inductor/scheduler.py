@@ -1305,10 +1305,16 @@ class Scheduler:
 
         metrics.ir_nodes_pre_fusion += len(self.nodes)
         V.debug.ir_pre_fusion(self.nodes)
+        # @frank add here to see graph pre fusion
+        # V.debug.graph_diagram(self.nodes)
+        # self.debug_draw_graph()
         self.num_orig_nodes = len(self.nodes)
         self.name_to_fused_node = {n.get_name(): n for n in self.nodes}
         self.create_foreach_nodes()
         self.topological_sort_schedule()
+        # @frank series parallel check here ???
+        # @frank modify the graph python to make sereis parallel
+        # @frank do our series paralell algorithm  
         self.logged_slow_fusion = set()
         self.fuse_nodes()
         self.finalize_multi_template_buffers()
@@ -1318,6 +1324,7 @@ class Scheduler:
             self.nodes = comms.reorder_compute_and_comm_for_overlap(self.nodes)
         self.compute_last_usage()
         V.debug.ir_post_fusion(self.nodes)
+        # @frank original code to see graph post fusion
         V.debug.graph_diagram(self.nodes)
         self.debug_draw_graph()
 
